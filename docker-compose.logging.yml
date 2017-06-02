@@ -50,6 +50,8 @@ services:
 
   elasticsearch:
     image: elasticsearch:2
+    volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     networks:
@@ -100,3 +102,6 @@ services:
         reservations:
           cpus: '0.25'
           memory: 256M
+volumes:
+    elasticsearch-data:
+        external: true
