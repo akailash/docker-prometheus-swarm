@@ -28,7 +28,7 @@ services:
           memory: 64M
 
   node-exporter:
-    image: basi/node-exporter:${NODE_EXPORTER_VERSION:-v1.13.0}
+    image: basi/node-exporter:${NODE_EXPORTER_VERSION:-v1.14.0}
     networks:
       - monitoring
     volumes:
@@ -64,7 +64,7 @@ services:
           memory: 4M
 
   alertmanager:
-    image: basi/alertmanager:${ALERTMANAGER_VERSION:-v0.1.0}
+    image: basi/alertmanager:${ALERTMANAGER_VERSION:-v0.6.2}
     networks:
       - monitoring
       # - logging
@@ -86,14 +86,14 @@ services:
           memory: 16M
 
   prometheus:
-    image: basi/prometheus-swarm:${PROMETHEUS_SWARM_VERSION:-v0.4.3}
+    image: basi/prometheus-swarm:${PROMETHEUS_SWARM_VERSION:-v1.6.3}
     ports:
       - "9090"
     networks:
       - monitoring
     volumes:
       - prometheus-data:/prometheus
-    command: -config.file=/etc/prometheus/prometheus.yml -storage.local.path=/prometheus -storage.local.memory-chunks=200000 -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles -alertmanager.url=http://alertmanager:9093
+    command: -config.file=/etc/prometheus/prometheus.yml -storage.local.path=/prometheus -storage.local.target-heap-size=1024000000 -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles -alertmanager.url=http://alertmanager:9093
     deploy:
       restart_policy:
         delay: 5s
@@ -108,7 +108,7 @@ services:
           memory: 128M
 
   grafana:
-    image: basi/grafana:${GRAFANA_VERSION:-v4.1.1}
+    image: basi/grafana:${GRAFANA_VERSION:-4.2.0}
     ports:
       - "3000:3000"
     networks:
